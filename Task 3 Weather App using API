@@ -4,7 +4,7 @@ def get_weather(city_name, api_key):
     url = "http://api.openweathermap.org/data/2.5/weather"
     params = {
         'q': city_name,
-        'appid': api_key,         # ✅ Correct spelling
+        'appid': api_key,         
         'units': 'metric'
     }
 

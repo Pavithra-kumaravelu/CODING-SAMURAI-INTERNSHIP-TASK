@@ -1,0 +1,41 @@
+import requests
+
+def get_weather(city_name, api_key):
+    url = "http://api.openweathermap.org/data/2.5/weather"
+    params = {
+        'q': city_name,
+        'appid': api_key,         # ✅ Correct spelling
+        'units': 'metric'
+    }
+
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+
+        data = response.json()
+        if data.get("cod") != 200:
+            print(f"⚠️ Error: {data.get('message')}")
+            return
+
+        print(f"\n📍 Location: {data['name']} - {data['sys']['country']}")
+        print(f"🌡️ Temperature: {data['main']['temp']} °C")
+        print(f"💧 Humidity: {data['main']['humidity']}%")
+        print(f"🌬️ Wind Speed: {data['wind']['speed']} m/s")
+        print(f"🌥️ Weather: {data['weather'][0]['description'].title()}")
+
+    except requests.exceptions.RequestException as e:
+        print("⚠️ Network error:", e)
+
+def main():
+    print("=== 🌤️ Weather App ===")
+    city = input("Enter city name: ").strip()
+    api_key = "be862be2a0f7c0a68ed61e02ba16457d"  # 🛠️ Replace this
+
+    if not city:
+        print("⚠️ City name cannot be empty.")
+        return
+
+    get_weather(city, api_key)
+
+if __name__ == "__main__":
+    main()
